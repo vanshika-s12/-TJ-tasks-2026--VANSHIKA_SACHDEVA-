@@ -1,0 +1,24 @@
+#include <iostream>
+int countBits(unsigned int n) {
+    if (n == 0) return 1; 
+    int count = 0;
+    while (n > 0) {
+        count++;
+        n >>= 1;
+    }
+    return count;
+}
+
+unsigned int concatBinary(unsigned int a, unsigned int b) {
+    int b_bits = countBits(b);
+    return (a << b_bits) | b;
+}
+
+int main() {
+    unsigned int a = 5;  
+    unsigned int b = 3; 
+    unsigned int result = concatBinary(a, b);
+    
+    std::cout << "Result (Decimal): " << result << "\n"; // Output: 23
+    return 0;
+}
