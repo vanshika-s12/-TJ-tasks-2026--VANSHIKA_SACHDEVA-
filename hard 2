@@ -44,3 +44,11 @@ int main() {
     cout << "\n";
     maxDist = -1;
     dfs(1, 0, 0); 
+ int startNode = farthestNode;
+    maxDist = -1;
+    dfs(startNode, 0, 0);
+    cout << "Diameter: " << maxDist << "\n";
+
+    return 0;
+}
+
