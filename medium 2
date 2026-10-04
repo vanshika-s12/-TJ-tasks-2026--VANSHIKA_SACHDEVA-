@@ -1,0 +1,50 @@
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include <cstring>
+
+using namespace std;
+
+class Solution {
+    int memo[501][501];
+    vector<int> prefSum;
+    int getRangeSum(int l, int r) {
+        return prefSum[r + 1] - prefSum[l];
+    }
+
+    int solve(vector<int>& stoneValue, int left, int right) {
+        if (left == right) return 0;
+        if (memo[left][right] != -1) return memo[left][right];
+
+        int maxScore = 0;
+        for (int k = left; k < right; ++k) {
+            int leftSum = getRangeSum(left, k);
+            int rightSum = getRangeSum(k + 1, right);
+            if (leftSum < rightSum) {
+                maxScore = max(maxScore, leftSum + solve(stoneValue, left, k));
+            }
+
+            else if (leftSum > rightSum) {
+                maxScore = max(maxScore, rightSum + solve(stoneValue, k + 1, right));
+            }
+            else {
+                int takeLeft = leftSum + solve(stoneValue, left, k);
+                int takeRight = rightSum + solve(stoneValue, k + 1, right);
+                maxScore = max({maxScore, takeLeft, takeRight});
+            }
+        }
+
+        return memo[left][right] = maxScore;
+    }
+
+public:
+    int stoneGameV(vector<int>& stoneValue) {
+        int n = stoneValue.size();
+        memset(memo, -1, sizeof(memo));
+        prefSum.assign(n + 1, 0);
+        for (int i = 0; i < n; ++i) {
+            prefSum[i + 1] = prefSum[i] + stoneValue[i];
+        }
+return solve(stoneValue, 0, n - 1);
+    }
+};
