@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int findSecondLargest(const vector<int>& arr, int n) {
+    if (n < 2) return -1;
+    
+    int largest = INT_MIN;
+    int slargest = INT_MIN;
+    
+    for(int i = 0; i < n; i++) {
+        if(arr[i] > largest) {
+            slargest = largest;
+            largest = arr[i];
+        } else if(arr[i] < largest && arr[i] > slargest) {
+            slargest = arr[i];
+        }
+    }
+    
+    return (slargest == INT_MIN) ? -1 : slargest;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    // FIX: Use vector instead of int a[n] to avoid stack overflow crashes
+    vector<int> a(n); 
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    
+    cout << findSecondLargest(a, n);
+    return 0;
+}
